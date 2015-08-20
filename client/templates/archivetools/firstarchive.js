@@ -58,3 +58,81 @@ Template.fileSelectWidgetServiceContent.helpers({
         return Session.get('serviceflickr');
     }
 });
+
+Template.fileSelectWidgetServiceContentTable.helpers({
+    faicon: function(type, filename) {
+        if (type == 'folder') {
+            return 'folder';
+        } else {
+            var ext = filename.split('.')[filename.split('.').length-1];
+            switch(ext.toLowerCase()) {
+                case 'png':
+                case 'jpg':
+                case 'jpeg':
+                case 'gif':
+                    return 'file-image-o';
+                    break;
+                    
+                /* More file types can be defined later */
+                
+                default:
+                    return 'file-o';
+                    break;
+            }
+        }
+    },
+    addedToMyArchives: function(service, path, filename) {
+        return addedToMyArchives(service, path, filename);
+    }
+});
+
+Template.fileSelectWidgetServiceContentTable.events({
+    'click .service-content-add-remove': function(e) {
+        if(addedToMyArchives(this.type, this.path, this.name)) {
+            removeFromMyArchives(this.type, this.path, this.name);
+        } else {
+            addtoMyArchives(this.type, this.path, this.name);
+        }
+    }
+});
+
+addtoMyArchives = function(service, path, filename) {
+    var myarchives = Session.get('myarchives');
+    if (!myarchives) {
+        myarchives = new Array();
+    }
+    myarchives.push({
+        service: service,
+        path: path,
+        filename: filename
+    });
+    Session.set('myarchives', myarchives);
+    
+    /* Update Collection */
+};
+
+removeFromMyArchives = function(service, path, filename) {
+    var myarchives = Session.get('myarchives');
+    if (myarchives) {
+        for (i in myarchives) {
+            if (myarchives[i].service==service && myarchives[i].path==path && myarchives[i].filename==filename) {
+                myarchives.splice(i, 1);
+            }
+        }
+    }
+    Session.set('myarchives', myarchives);
+    
+    /* Update Collection */
+};
+
+addedToMyArchives = function(service, path, filename) {
+    var myarchives = Session.get('myarchives');
+    if (myarchives) {
+        for (i in myarchives) {
+            if (myarchives[i].service==service && myarchives[i].path==path && myarchives[i].filename==filename) {
+                return true;
+            }
+        }
+    }
+    return false;
+};

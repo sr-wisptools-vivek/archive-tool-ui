@@ -48,7 +48,9 @@
     <div class="servicecontent">
         <div class="servicecontentitem" id="servicedropbox">
             {{#if dropboxcontent}}
-            
+                {{#with dropboxcontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
             {{else}}
             <div class="serviceconnect">
                 <button class="serviceconnectbutton">Connect to Dropbox</button>
@@ -58,7 +60,9 @@
         </div>
         <div class="servicecontentitem" id="servicegoogledrive" style="display: none;">
             {{#if googledrivecontent}}
-            
+                {{#with googledrivecontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
             {{else}}
             <div class="serviceconnect">
                 <button class="serviceconnectbutton">Connect to Google Drive</button>
@@ -68,7 +72,9 @@
         </div>
         <div class="servicecontentitem" id="serviceonedrive" style="display: none;">
             {{#if onedrivecontent}}
-            
+                {{#with onedrivecontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
             {{else}}
             <div class="serviceconnect">
                 <button class="serviceconnectbutton">Connect to OneDrive</button>
@@ -78,7 +84,9 @@
         </div>
         <div class="servicecontentitem" id="servicefacebook" style="display: none;">
             {{#if facebookcontent}}
-            
+                {{#with facebookcontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
             {{else}}
             <div class="serviceconnect">
                 <button class="serviceconnectbutton">Connect to Facebook</button>
@@ -88,7 +96,9 @@
         </div>
         <div class="servicecontentitem" id="serviceflickr" style="display: none;">
             {{#if flickrcontent}}
-            
+                {{#with flickrcontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
             {{else}}
             <div class="serviceconnect">
                 <button class="serviceconnectbutton">Connect to Flickr</button>
@@ -104,6 +114,37 @@
     </div>
 </template>
 
+<template name="fileSelectWidgetServiceContentTable">
+    <div class="filelisttable">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width:10%;">&nbsp;</th>
+                    <th style="width:60%;">File/Folder Name</th>
+                    <th style="width:15%;">Add/Remove</th>
+                    <th style="width:15%;">Auto Archive</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr>
+                    <td><i class="fa fa-{{faicon type name}}"></i></td>
+                    <td>{{name}}</td>
+                    <td class="service-content-add-remove">
+                        {{#if addedToMyArchives type path name}}
+                            <i class="fa fa-minus-circle"></i>
+                        {{else}}
+                            <i class="fa fa-plus-circle"></i>
+                        {{/if}}
+                    </td>
+                    <td><i class="fa fa-square-o"></i></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</template>
+
 <template name="fileSelectWidgetMyArchive">
     <div class="myarchive">
         <div class="myarchivesummary">
@@ -111,7 +152,7 @@
             <input type="text" id="myarchivename" placeholder="My Archive" />
             <span id="myarchiveusage">5 of 25 GB</span>
         </div>
-        <div class="myarchivecontent">
+        <div class="myarchivecontent filelisttable">
             <table class="table table-striped">
                 <thead>
                     <tr>

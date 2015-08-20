@@ -1,28 +1,50 @@
-dropboxcontent = [
-    {
-        type: 'folder',
-        name: 'documents',
-        size: 18*1024*1024
+dropboxcontent = {
+    source: {
+        name: 'dropbox',
+        url: 'https://www.dropbox.com/en/'
     },
-    {
-        type: 'folder',
-        name: 'movies',
-        size: 6*1024*1024*1024
-    },
-    {
-        type: 'file',
-        name: 'flowers.png',
-        size: 5*1024*1024
-    }
-];
+    data: [
+        {
+            type: 'folder',
+            name: 'documents',
+            path: '/',
+            size: 18*1024*1024
+        },
+        {
+            type: 'folder',
+            name: 'movies',
+            path: '/',
+            size: 6*1024*1024*1024
+        },
+        {
+            type: 'file',
+            name: 'flowers.png',
+            path: '/',
+            size: 5*1024*1024
+        }
+    ]
+};
 
-googledrivecontent = [
-    {
-        type: 'folder',
-        name: 'backups',
-        size: 14*1024*1024
-    }
-];
+googledrivecontent = {
+    source: {
+        name: 'googledrive',
+        url: ''
+    },
+    data: [
+        {
+            type: 'folder',
+            name: 'backups',
+            path: '/',
+            size: 14*1024*1024
+        },
+        {
+            type: 'file',
+            name: 'cats.gif',
+            path: '/',
+            size: 100*1024
+        }
+    ]
+};
 
 onedrivecontent = [
     

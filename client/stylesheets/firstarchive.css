@@ -148,12 +148,12 @@
     height: 350px;
 }
 
-#firstarchive .myarchivecontent table thead{
+#firstarchive .filelisttable table thead{
     background-color: #666666;
     color: white;
 }
 
-#firstarchive .myarchivecontent table i{
+#firstarchive .filelisttable table i{
     font-size: 20pt;
 }
 

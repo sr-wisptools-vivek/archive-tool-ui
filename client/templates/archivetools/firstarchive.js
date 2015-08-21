@@ -13,6 +13,36 @@ Template.fileSelectWidgetMyArchive.events({
     
     'click #myarchivename': function(e) {
         e.stopPropagation();
+    },
+    
+    'click .myarchive-content-remove i': function(e) {
+        removeFromMyArchives(this.service, this.fileData);
+    }
+});
+
+Template.fileSelectWidgetMyArchive.helpers({
+    myarchives: function() {
+        var userId = 1; //TODO: Change when user authentication is implemented
+        var myarchive = MyArchives.findOne({userId: userId});
+        if (myarchive) {
+            return myarchive.archiveData;
+        }
+    },
+    faicon: function(type, filename) {
+        return getFontAwesomeIcon(type, filename);
+    },
+    displaySize: function(size) {
+        if (size<1024) {
+            return '< 1 KB';
+        } else if(size<1024*1024) {
+            return Math.ceil(size/1024) + ' KB';
+        } else if(size<1024*1024*1024) {
+            return Math.ceil(size/1024/1024) + ' MB';
+        } else if(size<1024*1024*1024*1024) {
+            return Math.ceil(size/1024/1024/1024) + ' GB';
+        } else {
+            return Math.ceil(size/1024/1024/1024/1024) + ' TB';
+        }
     }
 });
 
@@ -61,25 +91,7 @@ Template.fileSelectWidgetServiceContent.helpers({
 
 Template.fileSelectWidgetServiceContentTable.helpers({
     faicon: function(type, filename) {
-        if (type == 'folder') {
-            return 'folder';
-        } else {
-            var ext = filename.split('.')[filename.split('.').length-1];
-            switch(ext.toLowerCase()) {
-                case 'png':
-                case 'jpg':
-                case 'jpeg':
-                case 'gif':
-                    return 'file-image-o';
-                    break;
-                    
-                /* More file types can be defined later */
-                
-                default:
-                    return 'file-o';
-                    break;
-            }
-        }
+        return getFontAwesomeIcon(type, filename);
     },
     addedToMyArchives: function(service, path, filename) {
         return addedToMyArchives(service, path, filename);
@@ -87,52 +99,82 @@ Template.fileSelectWidgetServiceContentTable.helpers({
 });
 
 Template.fileSelectWidgetServiceContentTable.events({
-    'click .service-content-add-remove': function(e) {
-        if(addedToMyArchives(this.type, this.path, this.name)) {
-            removeFromMyArchives(this.type, this.path, this.name);
+    'click .service-content-add-remove i': function(e) {
+        var dataObject = Template.currentData();
+        if(addedToMyArchives(dataObject.source.name, this)) {
+            removeFromMyArchives(dataObject.source.name, this);
         } else {
-            addtoMyArchives(this.type, this.path, this.name);
+            addtoMyArchives(dataObject.source.name, this);
         }
     }
 });
 
-addtoMyArchives = function(service, path, filename) {
+addtoMyArchives = function(service, fileDataObject) {
     var myarchives = Session.get('myarchives');
     if (!myarchives) {
         myarchives = new Array();
     }
     myarchives.push({
         service: service,
-        path: path,
-        filename: filename
+        fileData: fileDataObject
     });
     Session.set('myarchives', myarchives);
     
-    /* Update Collection */
+    Meteor.call('updateMyArchives', myarchives, function(error, result) {
+        if (error) {
+            console.log(error.reason);
+        }
+    });
 };
 
-removeFromMyArchives = function(service, path, filename) {
+removeFromMyArchives = function(service, fileDataObject) {
     var myarchives = Session.get('myarchives');
     if (myarchives) {
         for (i in myarchives) {
-            if (myarchives[i].service==service && myarchives[i].path==path && myarchives[i].filename==filename) {
+            if (myarchives[i].service==service && myarchives[i].fileData.type==fileDataObject.type && myarchives[i].fileData.path==fileDataObject.path && myarchives[i].fileData.name==fileDataObject.name) {
                 myarchives.splice(i, 1);
             }
         }
     }
     Session.set('myarchives', myarchives);
     
-    /* Update Collection */
+    Meteor.call('updateMyArchives', myarchives, function(error, result) {
+        if (error) {
+            console.log(error.reason);
+        }
+    });
 };
 
-addedToMyArchives = function(service, path, filename) {
+addedToMyArchives = function(service, fileDataObject) {
     var myarchives = Session.get('myarchives');
     if (myarchives) {
         for (i in myarchives) {
-            if (myarchives[i].service==service && myarchives[i].path==path && myarchives[i].filename==filename) {
+            if (myarchives[i].service==service && myarchives[i].fileData.type==fileDataObject.type && myarchives[i].fileData.path==fileDataObject.path && myarchives[i].fileData.name==fileDataObject.name) {
                 return true;
             }
         }
     }
     return false;
+};
+
+getFontAwesomeIcon = function(type, filename) {
+    if (type == 'folder') {
+        return 'folder';
+    } else {
+        var ext = filename.split('.')[filename.split('.').length-1];
+        switch(ext.toLowerCase()) {
+            case 'png':
+            case 'jpg':
+            case 'jpeg':
+            case 'gif':
+                return 'file-image-o';
+                break;
+
+            /* More file types can be defined later */
+
+            default:
+                return 'file-o';
+                break;
+        }
+    }
 };

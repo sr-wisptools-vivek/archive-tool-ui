@@ -131,7 +131,7 @@
                     <td><i class="fa fa-{{faicon type name}}"></i></td>
                     <td>{{name}}</td>
                     <td class="service-content-add-remove">
-                        {{#if addedToMyArchives type path name}}
+                        {{#if addedToMyArchives ../source.name this}}
                             <i class="fa fa-minus-circle"></i>
                         {{else}}
                             <i class="fa fa-plus-circle"></i>
@@ -164,20 +164,31 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{#each myarchives}}
                     <tr>
-                        <td><i class="fa fa-folder"></i></td>
-                        <td>Folder</td>
-                        <td><i class="fa fa-dropbox"></i></td>
-                        <td>2.5 GB</td>
-                        <td><i class="fa fa-minus-circle"></i></td>
+                        <td><i class="fa fa-{{faicon fileData.type fileData.name}}"></i></td>
+                        <td>{{fileData.name}}</td>
+                        <td>
+                            {{#if equals service "dropbox"}}
+                                <i class="fa fa-dropbox"></i>
+                            {{/if}}
+                            {{#if equals service "googledrive"}}
+                                <img src="/google_drive_alternate_black.png" style="width: 25px;" />
+                            {{/if}}
+                            {{#if equals service "onedrive"}}
+                                <img src="/skydrive_new_icon.png" style="width: 30px;" />
+                            {{/if}}
+                            {{#if equals service "facebook"}}
+                                <i class="fa fa-facebook-square"></i>
+                            {{/if}}
+                            {{#if equals service "flickr"}}
+                                <i class="fa fa-flickr"></i>
+                            {{/if}}
+                        </td>
+                        <td>{{displaySize fileData.size}}</td>
+                        <td class="myarchive-content-remove"><i class="fa fa-minus-circle"></i></td>
                     </tr>
-                    <tr>
-                        <td><i class="fa fa-file-image-o"></i></td>
-                        <td>image.png</td>
-                        <td><i class="fa fa-facebook-square"></i></td>
-                        <td>5.65 MB</td>
-                        <td><i class="fa fa-minus-circle"></i></td>
-                    </tr>
+                    {{/each}}
                 </tbody>
             </table>
         </div>

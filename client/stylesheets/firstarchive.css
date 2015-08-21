@@ -148,6 +148,10 @@
     height: 350px;
 }
 
+#firstarchive .service-content-add-remove i {
+    cursor: pointer;
+}
+
 #firstarchive .filelisttable table thead{
     background-color: #666666;
     color: white;

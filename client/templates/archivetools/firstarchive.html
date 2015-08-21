@@ -46,7 +46,102 @@
 
 <template name="fileSelectWidgetServiceContent">
     <div class="servicecontent">
-        
+        <div class="servicecontentitem" id="servicedropbox">
+            {{#if dropboxcontent}}
+                {{#with dropboxcontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
+            {{else}}
+            <div class="serviceconnect">
+                <button class="serviceconnectbutton">Connect to Dropbox</button>
+                <p>We'll open a new page to help you connect your Dropbox account</p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="servicecontentitem" id="servicegoogledrive" style="display: none;">
+            {{#if googledrivecontent}}
+                {{#with googledrivecontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
+            {{else}}
+            <div class="serviceconnect">
+                <button class="serviceconnectbutton">Connect to Google Drive</button>
+                <p>We'll open a new page to help you connect your Google Drive account</p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="servicecontentitem" id="serviceonedrive" style="display: none;">
+            {{#if onedrivecontent}}
+                {{#with onedrivecontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
+            {{else}}
+            <div class="serviceconnect">
+                <button class="serviceconnectbutton">Connect to OneDrive</button>
+                <p>We'll open a new page to help you connect your OneDrive account</p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="servicecontentitem" id="servicefacebook" style="display: none;">
+            {{#if facebookcontent}}
+                {{#with facebookcontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
+            {{else}}
+            <div class="serviceconnect">
+                <button class="serviceconnectbutton">Connect to Facebook</button>
+                <p>We'll open a new page to help you connect your Facebook account</p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="servicecontentitem" id="serviceflickr" style="display: none;">
+            {{#if flickrcontent}}
+                {{#with flickrcontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
+            {{else}}
+            <div class="serviceconnect">
+                <button class="serviceconnectbutton">Connect to Flickr</button>
+                <p>We'll open a new page to help you connect your Flickr account</p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="servicecontentitem" id="servicefileupload" style="display: none;">
+            <div class="serviceconnect">
+                <button class="serviceconnectbutton">Select files</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="fileSelectWidgetServiceContentTable">
+    <div class="filelisttable">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width:10%;">&nbsp;</th>
+                    <th style="width:60%;">File/Folder Name</th>
+                    <th style="width:15%;">Add/Remove</th>
+                    <th style="width:15%;">Auto Archive</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr>
+                    <td><i class="fa fa-{{faicon type name}}"></i></td>
+                    <td>{{name}}</td>
+                    <td class="service-content-add-remove">
+                        {{#if addedToMyArchives ../source.name this}}
+                            <i class="fa fa-minus-circle"></i>
+                        {{else}}
+                            <i class="fa fa-plus-circle"></i>
+                        {{/if}}
+                    </td>
+                    <td><i class="fa fa-square-o"></i></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
     </div>
 </template>
 
@@ -57,7 +152,7 @@
             <input type="text" id="myarchivename" placeholder="My Archive" />
             <span id="myarchiveusage">5 of 25 GB</span>
         </div>
-        <div class="myarchivecontent">
+        <div class="myarchivecontent filelisttable">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -69,20 +164,31 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{#each myarchives}}
                     <tr>
-                        <td><i class="fa fa-folder"></i></td>
-                        <td>Folder</td>
-                        <td><i class="fa fa-dropbox"></i></td>
-                        <td>2.5 GB</td>
-                        <td><i class="fa fa-minus-circle"></i></td>
+                        <td><i class="fa fa-{{faicon fileData.type fileData.name}}"></i></td>
+                        <td>{{fileData.name}}</td>
+                        <td>
+                            {{#if equals service "dropbox"}}
+                                <i class="fa fa-dropbox"></i>
+                            {{/if}}
+                            {{#if equals service "googledrive"}}
+                                <img src="/google_drive_alternate_black.png" style="width: 25px;" />
+                            {{/if}}
+                            {{#if equals service "onedrive"}}
+                                <img src="/skydrive_new_icon.png" style="width: 30px;" />
+                            {{/if}}
+                            {{#if equals service "facebook"}}
+                                <i class="fa fa-facebook-square"></i>
+                            {{/if}}
+                            {{#if equals service "flickr"}}
+                                <i class="fa fa-flickr"></i>
+                            {{/if}}
+                        </td>
+                        <td>{{displaySize fileData.size}}</td>
+                        <td class="myarchive-content-remove"><i class="fa fa-minus-circle"></i></td>
                     </tr>
-                    <tr>
-                        <td><i class="fa fa-file-image-o"></i></td>
-                        <td>image.png</td>
-                        <td><i class="fa fa-facebook-square"></i></td>
-                        <td>5.65 MB</td>
-                        <td><i class="fa fa-minus-circle"></i></td>
-                    </tr>
+                    {{/each}}
                 </tbody>
             </table>
         </div>

@@ -137,7 +137,13 @@
                             <i class="fa fa-plus-circle"></i>
                         {{/if}}
                     </td>
-                    <td><i class="fa fa-square-o"></i></td>
+                    <td class="service-content-auto-archive">
+                        {{#if autoArchiveEnabled ../source.name this}}
+                            <i class="fa fa-check-square-o"></i>
+                        {{else}}
+                            <i class="fa fa-square-o"></i>
+                        {{/if}}
+                    </td>
                 </tr>
                 {{/each}}
             </tbody>

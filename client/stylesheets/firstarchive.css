@@ -156,6 +156,10 @@
     cursor: pointer;
 }
 
+#firstarchive .service-content-auto-archive i {
+    cursor: pointer;
+}
+
 #firstarchive .filelisttable table thead{
     background-color: #666666;
     color: white;

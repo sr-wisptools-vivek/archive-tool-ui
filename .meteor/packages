@@ -9,3 +9,5 @@ underscore
 twbs:bootstrap
 iron:router
 fortawesome:fontawesome
+accounts-ui
+accounts-password

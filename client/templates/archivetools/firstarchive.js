@@ -22,7 +22,7 @@ Template.fileSelectWidgetMyArchive.events({
 
 Template.fileSelectWidgetMyArchive.helpers({
     myarchives: function() {
-        var userId = 1; //TODO: Change when user authentication is implemented
+        var userId = Meteor.userId();
         var myarchive = MyArchives.findOne({userId: userId});
         if (myarchive) {
             return myarchive.archiveData;

@@ -22,7 +22,7 @@ Template.fileSelectWidgetMyArchive.events({
 
 Template.fileSelectWidgetMyArchive.helpers({
     myarchives: function() {
-        var userId = 1; //TODO: Change when user authentication is implemented
+        var userId = Meteor.userId();
         var myarchive = MyArchives.findOne({userId: userId});
         if (myarchive) {
             return myarchive.archiveData;
@@ -43,6 +43,17 @@ Template.fileSelectWidgetMyArchive.helpers({
         } else {
             return Math.ceil(size/1024/1024/1024/1024) + ' TB';
         }
+    },
+    diskUsed: function() {
+        var userId = Meteor.userId();
+        var myarchive = MyArchives.findOne({userId: userId});
+        var sum = 0;
+        if (myarchive && myarchive.archiveData && myarchive.archiveData.length>0) {
+            for (i in myarchive.archiveData) {
+                sum += myarchive.archiveData[i].fileData.size;
+            }
+        }
+        return Math.ceil(sum/1024/1024/1024);
     }
 });
 
@@ -95,28 +106,46 @@ Template.fileSelectWidgetServiceContentTable.helpers({
     },
     addedToMyArchives: function(service, path, filename) {
         return addedToMyArchives(service, path, filename);
+    },
+    autoArchiveEnabled: function(service, path, filename) {
+        return autoArchiveEnabled(service, path, filename);
     }
 });
 
 Template.fileSelectWidgetServiceContentTable.events({
     'click .service-content-add-remove i': function(e) {
         var dataObject = Template.currentData();
+        var autoArchive = $(e.target).parent().next().find('i').hasClass('fa-check-square-o');
         if(addedToMyArchives(dataObject.source.name, this)) {
             removeFromMyArchives(dataObject.source.name, this);
         } else {
-            addtoMyArchives(dataObject.source.name, this);
+            addtoMyArchives(dataObject.source.name, this, autoArchive);
+        }
+    },
+    
+    'click .service-content-auto-archive i': function(e) {
+        var dataObject = Template.currentData();
+        if ($(e.target).hasClass('fa-check-square-o')) {
+            $(e.target).removeClass('fa-check-square-o');
+            $(e.target).addClass('fa-square-o');
+            updateAutoArchiveStat(dataObject.source.name, this, false);
+        } else {
+            $(e.target).removeClass('fa-square-o');
+            $(e.target).addClass('fa-check-square-o');
+            updateAutoArchiveStat(dataObject.source.name, this, true);
         }
     }
 });
 
-addtoMyArchives = function(service, fileDataObject) {
+addtoMyArchives = function(service, fileDataObject, autoArchive) {
     var myarchives = Session.get('myarchives');
     if (!myarchives) {
         myarchives = new Array();
     }
     myarchives.push({
         service: service,
-        fileData: fileDataObject
+        fileData: fileDataObject,
+        autoArchive: autoArchive
     });
     Session.set('myarchives', myarchives);
     
@@ -151,6 +180,39 @@ addedToMyArchives = function(service, fileDataObject) {
         for (i in myarchives) {
             if (myarchives[i].service==service && myarchives[i].fileData.type==fileDataObject.type && myarchives[i].fileData.path==fileDataObject.path && myarchives[i].fileData.name==fileDataObject.name) {
                 return true;
+            }
+        }
+    }
+    return false;
+};
+
+autoArchiveEnabled = function(service, fileDataObject) {
+    var myarchives = Session.get('myarchives');
+    if (myarchives) {
+        for (i in myarchives) {
+            if (myarchives[i].service==service && myarchives[i].fileData.type==fileDataObject.type && myarchives[i].fileData.path==fileDataObject.path && myarchives[i].fileData.name==fileDataObject.name) {
+                if (myarchives[i].autoArchive) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+};
+
+updateAutoArchiveStat = function(service, fileDataObject, status) {
+    var myarchives = Session.get('myarchives');
+    if (myarchives) {
+        for (i in myarchives) {
+            if (myarchives[i].service==service && myarchives[i].fileData.type==fileDataObject.type && myarchives[i].fileData.path==fileDataObject.path && myarchives[i].fileData.name==fileDataObject.name) {
+                myarchives[i].autoArchive = status;
+                Session.set('myarchives', myarchives);
+    
+                Meteor.call('updateMyArchives', myarchives, function(error, result) {
+                    if (error) {
+                        console.log(error.reason);
+                    }
+                });
             }
         }
     }

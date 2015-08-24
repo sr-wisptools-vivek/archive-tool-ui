@@ -43,6 +43,17 @@ Template.fileSelectWidgetMyArchive.helpers({
         } else {
             return Math.ceil(size/1024/1024/1024/1024) + ' TB';
         }
+    },
+    diskUsed: function() {
+        var userId = Meteor.userId();
+        var myarchive = MyArchives.findOne({userId: userId});
+        var sum = 0;
+        if (myarchive && myarchive.archiveData && myarchive.archiveData.length>0) {
+            for (i in myarchive.archiveData) {
+                sum += myarchive.archiveData[i].fileData.size;
+            }
+        }
+        return Math.ceil(sum/1024/1024/1024);
     }
 });
 

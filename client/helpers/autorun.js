@@ -1,6 +1,7 @@
 Tracker.autorun(function() {
     if (!Meteor.user()) {
         Session.set('myarchives', []);
+        Session.set('autoarchives', []);
         Session.set('servicedropbox', []);
         Session.set('servicegoogledrive', []);
         Session.set('serviceonedrive', []);
@@ -11,5 +12,6 @@ Tracker.autorun(function() {
         if (myarchive && myarchive.archiveData.length) {
             Session.set('myarchives', myarchive.archiveData);
         }
+        //TODO: Add code that creates auto-archive session
     }
 });

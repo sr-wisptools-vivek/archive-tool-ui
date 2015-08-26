@@ -107,8 +107,8 @@ Template.fileSelectWidgetServiceContentTable.helpers({
     addedToMyArchives: function(service, path, filename) {
         return addedToMyArchives(service, path, filename);
     },
-    autoArchiveEnabled: function(service, path, filename) {
-        return autoArchiveEnabled(service, path, filename);
+    addedToAutoArchives: function(service, path, filename) {
+        return addedToAutoArchives(service, path, filename);
     }
 });
 

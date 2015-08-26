@@ -12,6 +12,10 @@ Tracker.autorun(function() {
         if (myarchive && myarchive.archiveData.length) {
             Session.set('myarchives', myarchive.archiveData);
         }
-        //TODO: Add code that creates auto-archive session
+        var autoarchive = AutoArchives.findOne({userId: Meteor.userId()});
+        console.log(autoarchive);
+        if (autoarchive && autoarchive.archiveData.length) {
+            Session.set('autoarchives', autoarchive.archiveData);
+        }
     }
 });

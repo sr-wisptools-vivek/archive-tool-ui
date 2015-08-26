@@ -1,6 +1,6 @@
 <template name="fileSelectWidgetServiceContentTable">
     <div class="filelisttable">
-        <table class="table table-striped">
+        <table class="table table-striped" style="margin-bottom: 0px;">
             <thead>
                 <tr>
                     <th style="width:10%;">&nbsp;</th>
@@ -9,28 +9,32 @@
                     <th style="width:15%;">Auto Archive</th>
                 </tr>
             </thead>
-            <tbody>
-                {{#each data}}
-                <tr>
-                    <td><i class="fa fa-{{faicon type name}}"></i></td>
-                    <td>{{name}}</td>
-                    <td class="service-content-add-remove">
-                        {{#if addedToMyArchives ../source.name this}}
-                            <i class="fa fa-minus-circle"></i>
-                        {{else}}
-                            <i class="fa fa-plus-circle"></i>
-                        {{/if}}
-                    </td>
-                    <td class="service-content-auto-archive">
-                        {{#if addedToAutoArchives ../source.name this}}
-                            <i class="fa fa-check-square-o"></i>
-                        {{else}}
-                            <i class="fa fa-square-o"></i>
-                        {{/if}}
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
         </table>
+        <div style="overflow: auto; height: 310px;">
+            <table class="table table-striped">
+                <tbody>
+                    {{#each data}}
+                    <tr>
+                        <td style="width:10%;"><i class="fa fa-{{faicon type name}}"></i></td>
+                        <td style="width:60%;">{{name}}</td>
+                        <td style="width:15%;" class="service-content-add-remove">
+                            {{#if addedToMyArchives ../source.name this}}
+                                <i class="fa fa-minus-circle"></i>
+                            {{else}}
+                                <i class="fa fa-plus-circle"></i>
+                            {{/if}}
+                        </td>
+                        <td style="width:15%;" class="service-content-auto-archive">
+                            {{#if addedToAutoArchives ../source.name this}}
+                                <i class="fa fa-check-square-o"></i>
+                            {{else}}
+                                <i class="fa fa-square-o"></i>
+                            {{/if}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>

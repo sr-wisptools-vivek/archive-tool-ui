@@ -54,5 +54,11 @@ Template.fileSelectWidgetMyArchive.helpers({
             }
         }
         return Math.ceil(sum/1024/1024/1024);
+    },
+    fileLocation: function(path, filename) {
+        if (path[path.length-1]=="/") {
+            return path+filename;
+        }
+        return path+"/"+filename;
     }
 });

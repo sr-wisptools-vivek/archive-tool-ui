@@ -14,24 +14,26 @@
             <table class="table table-striped">
                 <tbody>
                     {{#each data}}
-                    <tr>
-                        <td style="width:10%;"><i class="fa fa-{{faicon type name}}"></i></td>
-                        <td style="width:60%;">{{name}}</td>
-                        <td style="width:15%;" class="service-content-add-remove">
-                            {{#if addedToMyArchives ../source.name this}}
-                                <i class="fa fa-minus-circle"></i>
-                            {{else}}
-                                <i class="fa fa-plus-circle"></i>
-                            {{/if}}
-                        </td>
-                        <td style="width:15%;" class="service-content-auto-archive">
-                            {{#if addedToAutoArchives ../source.name this}}
-                                <i class="fa fa-check-square-o"></i>
-                            {{else}}
-                                <i class="fa fa-square-o"></i>
-                            {{/if}}
-                        </td>
-                    </tr>
+                        {{#if inCurrentFolder ../source.name path}}
+                            <tr>
+                                <td style="width:10%;"><i class="fa fa-{{faicon type name}}"></i></td>
+                                <td style="width:60%;" class="{{addFolderClass type}}">{{name}}</td>
+                                <td style="width:15%;" class="service-content-add-remove">
+                                    {{#if addedToMyArchives ../source.name this}}
+                                        <i class="fa fa-minus-circle"></i>
+                                    {{else}}
+                                        <i class="fa fa-plus-circle"></i>
+                                    {{/if}}
+                                </td>
+                                <td style="width:15%;" class="service-content-auto-archive">
+                                    {{#if addedToAutoArchives ../source.name this}}
+                                        <i class="fa fa-check-square-o"></i>
+                                    {{else}}
+                                        <i class="fa fa-square-o"></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/if}}
                     {{/each}}
                 </tbody>
             </table>

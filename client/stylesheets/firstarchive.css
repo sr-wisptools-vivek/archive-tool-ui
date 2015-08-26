@@ -169,6 +169,10 @@
     font-size: 20pt;
 }
 
+#firstarchive .navigation-folder {
+    cursor: pointer;
+}
+
 #firstarchive .footer {
     float: left;
     width: 100%;

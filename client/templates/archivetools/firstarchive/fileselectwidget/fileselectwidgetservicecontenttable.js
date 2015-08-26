@@ -2,11 +2,19 @@ Template.fileSelectWidgetServiceContentTable.helpers({
     faicon: function(type, filename) {
         return getFontAwesomeIcon(type, filename);
     },
-    addedToMyArchives: function(service, path, filename) {
-        return addedToMyArchives(service, path, filename);
+    addedToMyArchives: function(service, fileObject) {
+        return addedToMyArchives(service, fileObject);
     },
-    addedToAutoArchives: function(service, path, filename) {
-        return addedToAutoArchives(service, path, filename);
+    addedToAutoArchives: function(service, fileObject) {
+        return addedToAutoArchives(service, fileObject);
+    },
+    inCurrentFolder: function(service, path) {
+        return Session.get("service"+service+"_navigationRoot") === path;
+    },
+    addFolderClass: function(type) {
+        if (type=="folder") {
+            return 'navigation-folder';
+        }
     }
 });
 
@@ -27,5 +35,11 @@ Template.fileSelectWidgetServiceContentTable.events({
         } else {
             addtoAutoArchives(dataObject.source.name, this);
         }
+    },
+    
+    'click .navigation-folder': function(e) {
+        var dataObject = Template.currentData();
+        var newNavigationRoot = this.path[this.path.length-1]=="/"?this.path+this.name:this.path+"/"+this.name;
+        Session.set("service"+dataObject.source.name+"_navigationRoot", newNavigationRoot);
     }
 });

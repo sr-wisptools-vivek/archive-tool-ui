@@ -2,11 +2,11 @@ Tracker.autorun(function() {
     if (!Meteor.user()) {
         Session.set('myarchives', []);
         Session.set('autoarchives', []);
-        Session.set('servicedropbox', []);
-        Session.set('servicegoogledrive', []);
-        Session.set('serviceonedrive', []);
-        Session.set('servicefacebook', []);
-        Session.set('serviceflickr', []);
+        var service_list = ["servicedropbox", "servicegoogledrive", "serviceonedrive", "servicefacebook", "serviceflickr"];
+        for (i in service_list) {
+            Session.set(service_list[i], []);
+            Session.set(service_list[i]+"_navigationRoot", []);
+        }
     } else {
         var myarchive = MyArchives.findOne({userId: Meteor.userId()});
         if (myarchive && myarchive.archiveData.length) {

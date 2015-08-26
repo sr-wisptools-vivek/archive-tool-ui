@@ -1,0 +1,36 @@
+<template name="fileSelectWidgetServiceContentTable">
+    <div class="filelisttable">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width:10%;">&nbsp;</th>
+                    <th style="width:60%;">File/Folder Name</th>
+                    <th style="width:15%;">Add/Remove</th>
+                    <th style="width:15%;">Auto Archive</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr>
+                    <td><i class="fa fa-{{faicon type name}}"></i></td>
+                    <td>{{name}}</td>
+                    <td class="service-content-add-remove">
+                        {{#if addedToMyArchives ../source.name this}}
+                            <i class="fa fa-minus-circle"></i>
+                        {{else}}
+                            <i class="fa fa-plus-circle"></i>
+                        {{/if}}
+                    </td>
+                    <td class="service-content-auto-archive">
+                        {{#if addedToAutoArchives ../source.name this}}
+                            <i class="fa fa-check-square-o"></i>
+                        {{else}}
+                            <i class="fa fa-square-o"></i>
+                        {{/if}}
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</template>

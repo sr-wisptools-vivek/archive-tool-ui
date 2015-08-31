@@ -41,5 +41,16 @@ Template.fileSelectWidgetServiceContentTable.events({
         var dataObject = Template.currentData();
         var newNavigationRoot = this.path[this.path.length-1]=="/"?this.path+this.name:this.path+"/"+this.name;
         Session.set("service"+dataObject.source.name+"_navigationRoot", newNavigationRoot);
+    },
+    
+    'click .navigation-parent-folder': function(e) {
+        var currentFolder = Session.get("service"+this.source.name+"_navigationRoot");
+        if (currentFolder && currentFolder != "/") {
+            var newNavigationRoot = currentFolder.split('/').slice(0,-1).join('/');
+            if (newNavigationRoot == "") {
+                newNavigationRoot = "/";
+            }
+            Session.set("service"+this.source.name+"_navigationRoot", newNavigationRoot);
+        }
     }
 });

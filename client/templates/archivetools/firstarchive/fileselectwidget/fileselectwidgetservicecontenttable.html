@@ -13,6 +13,14 @@
         <div style="overflow: auto; height: 310px;">
             <table class="table table-striped">
                 <tbody>
+                    {{#unless inCurrentFolder source.name "/"}}
+                        <tr>
+                            <td style="width:10%;"><i class="fa fa-arrow-circle-left"></i></td>
+                            <td style="width:60%;" class="navigation-parent-folder">Parent Folder</td>
+                            <td style="width:15%;"></td>
+                            <td style="width:15%;"></td>
+                        </tr>
+                    {{/unless}}
                     {{#each data}}
                         {{#if inCurrentFolder ../source.name path}}
                             <tr>

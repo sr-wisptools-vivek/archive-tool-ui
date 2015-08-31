@@ -173,6 +173,10 @@
     cursor: pointer;
 }
 
+#firstarchive .navigation-parent-folder {
+    cursor: pointer;
+}
+
 #firstarchive .footer {
     float: left;
     width: 100%;

@@ -1,0 +1,69 @@
+<template name="fileSelectWidgetServiceContent">
+    <div class="servicecontent">
+        <div class="servicecontentitem" id="servicedropbox">
+            {{#if dropboxcontent}}
+                {{#with dropboxcontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
+            {{else}}
+            <div class="serviceconnect">
+                <button class="serviceconnectbutton">Connect to Dropbox</button>
+                <p>We'll open a new page to help you connect your Dropbox account</p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="servicecontentitem" id="servicegoogledrive" style="display: none;">
+            {{#if googledrivecontent}}
+                {{#with googledrivecontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
+            {{else}}
+            <div class="serviceconnect">
+                <button class="serviceconnectbutton">Connect to Google Drive</button>
+                <p>We'll open a new page to help you connect your Google Drive account</p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="servicecontentitem" id="serviceonedrive" style="display: none;">
+            {{#if onedrivecontent}}
+                {{#with onedrivecontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
+            {{else}}
+            <div class="serviceconnect">
+                <button class="serviceconnectbutton">Connect to OneDrive</button>
+                <p>We'll open a new page to help you connect your OneDrive account</p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="servicecontentitem" id="servicefacebook" style="display: none;">
+            {{#if facebookcontent}}
+                {{#with facebookcontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
+            {{else}}
+            <div class="serviceconnect">
+                <button class="serviceconnectbutton">Connect to Facebook</button>
+                <p>We'll open a new page to help you connect your Facebook account</p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="servicecontentitem" id="serviceflickr" style="display: none;">
+            {{#if flickrcontent}}
+                {{#with flickrcontent}}
+                    {{> fileSelectWidgetServiceContentTable}}
+                {{/with}}
+            {{else}}
+            <div class="serviceconnect">
+                <button class="serviceconnectbutton">Connect to Flickr</button>
+                <p>We'll open a new page to help you connect your Flickr account</p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="servicecontentitem" id="servicefileupload" style="display: none;">
+            <div class="serviceconnect">
+                <button class="serviceconnectbutton">Select files</button>
+            </div>
+        </div>
+    </div>
+</template>

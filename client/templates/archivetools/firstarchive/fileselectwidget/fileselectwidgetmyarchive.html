@@ -1,0 +1,53 @@
+<template name="fileSelectWidgetMyArchive">
+    <div class="myarchive">
+        <div class="myarchivesummary">
+            <i class="fa fa-circle-thin"></i>
+            <input type="text" id="myarchivename" placeholder="My Archive" />
+            <span id="myarchiveusage">{{diskUsed}} of 25 GB</span>
+        </div>
+        <div class="myarchivecontent filelisttable">
+            <table class="table table-striped" style="margin-bottom: 0px;">
+                <thead>
+                    <tr>
+                        <th style="width:10%;">&nbsp;</th>
+                        <th style="width:65%;">File/Folder Name</th>
+                        <th style="width:10%;">From</th>
+                        <th style="width:10%;">Size</th>
+                        <th style="width:5%;">&nbsp;</th>
+                    </tr>
+                </thead>
+            </table>
+            <div style="overflow: auto; height: 312px;">
+                <table class="table table-striped">
+                    <tbody>
+                        {{#each myarchives}}
+                        <tr>
+                            <td style="width:10%;"><i class="fa fa-{{faicon fileData.type fileData.name}}"></i></td>
+                            <td style="width:65%;">{{fileLocation fileData.path fileData.name}}</td>
+                            <td style="width:10%;">
+                                {{#if equals service "dropbox"}}
+                                    <i class="fa fa-dropbox"></i>
+                                {{/if}}
+                                {{#if equals service "googledrive"}}
+                                    <img src="/google_drive_alternate_black.png" style="width: 25px;" />
+                                {{/if}}
+                                {{#if equals service "onedrive"}}
+                                    <img src="/skydrive_new_icon.png" style="width: 30px;" />
+                                {{/if}}
+                                {{#if equals service "facebook"}}
+                                    <i class="fa fa-facebook-square"></i>
+                                {{/if}}
+                                {{#if equals service "flickr"}}
+                                    <i class="fa fa-flickr"></i>
+                                {{/if}}
+                            </td>
+                            <td style="width:10%;">{{displaySize fileData.size}}</td>
+                            <td style="width:5%;" class="myarchive-content-remove"><i class="fa fa-minus-circle"></i></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</template>

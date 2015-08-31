@@ -1,0 +1,50 @@
+<template name="fileSelectWidgetServiceContentTable">
+    <div class="filelisttable">
+        <table class="table table-striped" style="margin-bottom: 0px;">
+            <thead>
+                <tr>
+                    <th style="width:10%;">&nbsp;</th>
+                    <th style="width:60%;">File/Folder Name</th>
+                    <th style="width:15%;">Add/Remove</th>
+                    <th style="width:15%;">Auto Archive</th>
+                </tr>
+            </thead>
+        </table>
+        <div style="overflow: auto; height: 310px;">
+            <table class="table table-striped">
+                <tbody>
+                    {{#unless inCurrentFolder source.name "/"}}
+                        <tr>
+                            <td style="width:10%;"><i class="fa fa-arrow-circle-left"></i></td>
+                            <td style="width:60%;" class="navigation-parent-folder">Parent Folder</td>
+                            <td style="width:15%;"></td>
+                            <td style="width:15%;"></td>
+                        </tr>
+                    {{/unless}}
+                    {{#each data}}
+                        {{#if inCurrentFolder ../source.name path}}
+                            <tr>
+                                <td style="width:10%;"><i class="fa fa-{{faicon type name}}"></i></td>
+                                <td style="width:60%;" class="{{addFolderClass type}}">{{name}}</td>
+                                <td style="width:15%;" class="service-content-add-remove">
+                                    {{#if addedToMyArchives ../source.name this}}
+                                        <i class="fa fa-minus-circle"></i>
+                                    {{else}}
+                                        <i class="fa fa-plus-circle"></i>
+                                    {{/if}}
+                                </td>
+                                <td style="width:15%;" class="service-content-auto-archive">
+                                    {{#if addedToAutoArchives ../source.name this}}
+                                        <i class="fa fa-check-square-o"></i>
+                                    {{else}}
+                                        <i class="fa fa-square-o"></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>

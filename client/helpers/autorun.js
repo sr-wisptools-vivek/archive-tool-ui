@@ -13,7 +13,6 @@ Tracker.autorun(function() {
             Session.set('myarchives', myarchive.archiveData);
         }
         var autoarchive = AutoArchives.findOne({userId: Meteor.userId()});
-        console.log(autoarchive);
         if (autoarchive && autoarchive.archiveData.length) {
             Session.set('autoarchives', autoarchive.archiveData);
         }

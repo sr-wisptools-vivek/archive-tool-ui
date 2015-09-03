@@ -1,12 +1,24 @@
 Template.fileSelectWidgetServiceContent.events({
     'click .serviceconnectbutton': function(e) {
         var serviceName = $(e.currentTarget).parent().parent().attr('id');
-        Meteor.call(serviceName, function(error, result) {
-            if (result) {
-                Session.set(serviceName, result);
-                Session.set(serviceName+"_navigationRoot", "/");
-            }
-        });
+        
+        switch (serviceName) {
+            case 'servicedropbox':
+                DropboxOAuth.requestCredential(function(e) {
+                    if (e) {
+                        Meteor.call('updateCloudServiceAccessToken', e, 'dropbox', function(error, result) {
+                            console.log('Authenticated');
+                            Meteor.call(serviceName, function (error, result) {
+                                if (result) {
+                                    Session.set(service_list[i], result);
+                                    Session.set(service_list[i] + "_navigationRoot", "/");
+                                }
+                            });
+                        });
+                    }
+                });
+                break;
+        }
     }
 });
 

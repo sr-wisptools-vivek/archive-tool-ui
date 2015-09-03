@@ -1,6 +1,11 @@
 Meteor.methods({
     servicedropbox: function() {
-        return dropboxcontent;
+        var userId = Meteor.userId();
+        var cloudServiceAccessToken = CloudServiceAccessTokens.findOne({userId: userId, servicename: 'dropbox'});
+        if (cloudServiceAccessToken) {
+            return DropboxOAuth.listDirectory(cloudServiceAccessToken.credential.serviceData.accessToken);
+        }
+        return [];
     },
     servicegoogledrive: function() {
         return googledrivecontent;

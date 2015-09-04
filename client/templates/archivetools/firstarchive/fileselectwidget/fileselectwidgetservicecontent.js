@@ -7,13 +7,7 @@ Template.fileSelectWidgetServiceContent.events({
                 DropboxOAuth.requestCredential(function(e) {
                     if (e) {
                         Meteor.call('updateCloudServiceAccessToken', e, 'dropbox', function(error, result) {
-                            console.log('Authenticated');
-                            Meteor.call(serviceName, function (error, result) {
-                                if (result) {
-                                    Session.set(service_list[i], result);
-                                    Session.set(service_list[i] + "_navigationRoot", "/");
-                                }
-                            });
+                            Session.set("servicedropbox_requireRefresh", true);
                         });
                     }
                 });

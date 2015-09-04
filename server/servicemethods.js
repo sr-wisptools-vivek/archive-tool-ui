@@ -2,7 +2,7 @@ Meteor.methods({
     servicedropbox: function() {
         var userId = Meteor.userId();
         var cloudServiceAccessToken = CloudServiceAccessTokens.findOne({userId: userId, servicename: 'dropbox'});
-        if (cloudServiceAccessToken) {
+        if (cloudServiceAccessToken && cloudServiceAccessToken.credential.serviceData.accessToken) {
             return DropboxOAuth.listDirectory(cloudServiceAccessToken.credential.serviceData.accessToken);
         }
         return [];
